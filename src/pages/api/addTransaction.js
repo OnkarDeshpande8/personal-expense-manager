@@ -1,6 +1,10 @@
 // pages/api/addTransaction.js
-import sheets from '../../../googleSheets';
-import { ColumnNames, TransactionType, TransactionCategory } from '../../../utils/enums';
+import sheets from "../../../googleSheets";
+import {
+  ColumnNames,
+  TransactionType,
+  TransactionCategory,
+} from "../../../utils/enums";
 
 /**
  * @swagger
@@ -18,7 +22,7 @@ import { ColumnNames, TransactionType, TransactionCategory } from '../../../util
  *               date:
  *                 type: string
  *                 format: date
- *                 example: "2023-12-01"
+ *                 example: "2024-12-01"
  *               description:
  *                 type: string
  *                 example: "Grocery shopping"
@@ -56,25 +60,25 @@ import { ColumnNames, TransactionType, TransactionCategory } from '../../../util
  *                   example: "Method 'GET' Not Allowed"
  */
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     const { date, description, type, amount, category } = req.body;
 
     // Validate type and category using enums
     if (!Object.values(TransactionType).includes(type)) {
-      return res.status(400).json({ error: 'Invalid transaction type' });
+      return res.status(400).json({ error: "Invalid transaction type" });
     }
     if (!Object.values(TransactionCategory).includes(category)) {
-      return res.status(400).json({ error: 'Invalid transaction category' });
+      return res.status(400).json({ error: "Invalid transaction category" });
     }
 
     // Fetch existing transactions to determine the next ID
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.SHEET_ID,
-      range: 'Sheet1!A:A', // Fetch only the ID column
+      range: "Sheet1!A:A", // Fetch only the ID column
     });
 
-    const existingIds = response.data?.values?.flat().map(Number);
-    const nextId = existingIds?.length > 1 ? existingIds?.length : 1;
+    const existingIds = response.data?.values?.slice(1).map(Number);
+    const nextId = existingIds?.length > 1 ? Math.max(...existingIds) + 1 : 1;
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.SHEET_ID,
@@ -85,7 +89,7 @@ export default async function handler(req, res) {
       },
     });
 
-    res.status(200).json({ message: 'Transaction added' });
+    res.status(200).json({ message: "Transaction added" });
   } else {
     res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
   }
