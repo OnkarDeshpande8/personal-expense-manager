@@ -1,0 +1,62 @@
+/* globals.css */
+
+:root {
+  --primary-100: #bb2649;
+  --primary-200: #f35d74;
+  --primary-300: #ffc3d4;
+  --accent-100: #ffadad;
+  --accent-200: #ffd6a5;
+  --text-100: #4b4f5d;
+  --text-200: #6a738b;
+  --bg-100: #ffffff;
+  --bg-200: #f5f5f5;
+  --bg-300: #cccccc;
+
+  --green: green;
+  --red: red;
+
+  --color-groceries: #FF6347;
+  --color-food: #ffd900;
+  --color-petrol: #4682B4;
+  --color-medical: #FF4500;
+  --color-shopping: #8A2BE2;
+  --color-entertainment: #20B2AA;
+  --color-emi: #61b461;
+  --color-sip: #FF69B4;
+  --color-recharge: #5beb8bec;
+  --color-other: #A9A9A9;
+
+  --font-family: 'Roboto', sans-serif;
+  --font-size-title: 24px;
+  --font-size-subtitle: 20px;
+  --font-size-body: 16px;
+  --font-size-small: 12px;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-100);
+  color: var(--text-100);
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary-100);
+}
+
+h1 {
+  font-size: var(--font-size-title);
+}
+
+h2 {
+  font-size: var(--font-size-subtitle);
+}
+
+p {
+  font-size: var(--font-size-body);
+}
+
+small {
+  font-size: var(--font-size-small);
+}

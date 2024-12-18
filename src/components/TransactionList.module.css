@@ -1,0 +1,51 @@
+/* TransactionList.module.css */
+
+.transactionList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.transaction {
+  padding: 8px 10px;
+  background-color: var(--bg-200);
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.smallFont {
+  font-size: var(--font-size-small);
+  /* font-style: italic; */
+}
+
+.description {
+  flex: 1;
+  font-size: var(--font-size-body);
+}
+
+.amount {
+  font-size: var(--font-size-body);
+  font-weight: bold;
+}
+
+.credit {
+  color: var(--green);
+}
+
+.debit {
+  color: var(--red);
+}
+
+.category {
+  font-size: var(--font-size-small);
+}
+
+.date {
+  font-size: var(--font-size-small);
+}

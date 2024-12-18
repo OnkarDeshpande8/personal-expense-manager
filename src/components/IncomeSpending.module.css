@@ -1,0 +1,38 @@
+.totalContainer {
+    /* width: 80%; */
+    display: flex;
+    justify-content: space-evenly;
+    border: 1px solid var(--primary-200);
+    padding: 5px 0px;
+    border-radius: 10px;
+  }
+
+.totalSubContainer {
+    width: 46%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--bg-200);
+    padding: 8px 0px;
+    border-radius: 10px;
+  }
+
+  .total {
+    font-size: var(--font-size-body);
+  }
+  
+  .totalIncome {
+    margin-top: 2px;
+    font-size: var(--font-size-subtitle);
+    font-weight: bold;
+    color: var(--green);
+    display: flex;
+  }
+  
+  .totalSpending {
+    margin-top: 2px;
+    font-size: var(--font-size-subtitle);
+    font-weight: bold;
+    color: var(--red);
+    display: flex;
+  }

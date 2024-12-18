@@ -1,0 +1,55 @@
+.categorySpendingContainer {
+  margin-top: 20px;
+  padding: 10px 20px ;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.headerText {
+  color: var(--text-100);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.list {
+  width: 100%;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.icon {
+  font-size: 20px;
+  margin-right: 10px;
+  border-radius: 40px;
+  padding: 2px 7px;
+  background-color: var(--bg-200);
+}
+
+.categoryName {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-body);
+}
+
+.amount {
+  margin-top: 8px;
+  font-size: var(--font-size-body);
+  color: var(--primary-100);
+}
+
+.totalRow {
+  border-top: 1px solid var(--bg-300);
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  padding: 10px 0;
+}
+
+.totalAmount {
+  color: var(--primary-200);
+}

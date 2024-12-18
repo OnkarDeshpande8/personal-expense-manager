@@ -1,0 +1,49 @@
+/* AddEntry.module.css */
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 50px;
+  background-color: var(--bg-100);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: var(--bg-100);
+  padding: 0px 10px;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.success {
+  color: var(--primary-200);
+}
+
+.error {
+  color: var(--accent-100);
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 20px;
+  }
+}

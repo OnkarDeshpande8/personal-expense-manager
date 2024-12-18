@@ -1,0 +1,47 @@
+/* Home.module.css */
+
+.container {
+  padding: 10px 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 100px;
+}
+
+.title {
+  text-align: center;
+  color: var(--primary-100);
+  font-size: var(--font-size-title);
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.subTitle {
+  color: var(--text-100);
+  font-size: var(--font-size-subtitle);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.headerText {
+  color: var(--text-100);
+  font-size: var(--font-size-subtitle);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.filterContainer {
+  margin-bottom: 10px;
+}
+
+.filterInput {
+  margin-right: 20px;
+  padding: 5px;
+  font-size: var(--font-size-body);
+  border-radius: 10px;
+  border: 1px solid var(--bg-300);
+  background-color: var(--bg-100);
+}
+
+.customMargin {
+  margin: 10px 0;
+  border-top: 1px solid var(--bg-300);
+}

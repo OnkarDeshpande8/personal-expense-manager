@@ -1,0 +1,12 @@
+/* src/components/Filters.module.css */
+.filters {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.filters input, .filters select {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
