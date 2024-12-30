@@ -15,7 +15,6 @@ const Navbar = () => {
           <Link href="/" legacyBehavior>
             <a className={`${styles.navLink} ${router.pathname === '/' ? styles.active : ''}`}>
               <FaHome className={styles.icon} />
-              {/* <span className={styles.label}>Home</span> */}
             </a>
           </Link>
         </li>
@@ -23,7 +22,6 @@ const Navbar = () => {
           <Link href="/add-entry" legacyBehavior>
             <a className={`${styles.navLink} ${router.pathname === '/add-entry' ? styles.active : ''}`}>
               <FaPlus className={styles.icon} />
-              {/* <span className={styles.label}>Add</span> */}
             </a>
           </Link>
         </li>
@@ -31,7 +29,6 @@ const Navbar = () => {
           <Link href="/Statistics" legacyBehavior>
             <a className={`${styles.navLink} ${router.pathname === '/Statistics' ? styles.active : ''}`}>
               <FaChartBar className={styles.icon} />
-              {/* <span className={styles.label}>Reports</span> */}
             </a>
           </Link>
         </li>

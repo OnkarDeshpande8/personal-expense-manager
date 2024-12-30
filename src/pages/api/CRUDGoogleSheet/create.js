@@ -1,6 +1,11 @@
 // pages/api/CRUDGoogleSheet/create.js
-import sheets from '../../../../googleSheets';
-import { ColumnNames, TransactionType, TransactionCategory } from '../../../../utils/enums';
+import sheets from "../../../../googleSheets";
+import {
+  ColumnNames,
+  TransactionType,
+  TransactionCategory,
+  PaymentType,
+} from "../../../../utils/enums";
 
 /**
  * @swagger
@@ -33,6 +38,10 @@ import { ColumnNames, TransactionType, TransactionCategory } from '../../../../u
  *                 type: string
  *                 enum: [Groceries, Food, Petrol, Medical, Shopping, Entertainment, EMI, SIP, Income, Other]
  *                 example: "Groceries"
+ *               paymentType:
+ *                 type: string
+ *                 enum: [Cash, UPI]
+ *                 example: "Cash"
  *     responses:
  *       200:
  *         description: Transaction added successfully
@@ -56,21 +65,24 @@ import { ColumnNames, TransactionType, TransactionCategory } from '../../../../u
  *                   example: "Method 'GET' Not Allowed"
  */
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { date, description, type, amount, category } = req.body;
+  if (req.method === "POST") {
+    const { date, description, type, amount, category, paymentType } = req.body;
 
-    // Validate type and category using enums
+    // Validate type, category, and payment type using enums
     if (!Object.values(TransactionType).includes(type)) {
-      return res.status(400).json({ error: 'Invalid transaction type' });
+      return res.status(400).json({ error: "Invalid transaction type" });
     }
     if (!Object.values(TransactionCategory).includes(category)) {
-      return res.status(400).json({ error: 'Invalid transaction category' });
+      return res.status(400).json({ error: "Invalid transaction category" });
+    }
+    if (!Object.values(PaymentType).includes(paymentType)) {
+      return res.status(400).json({ error: "Invalid payment type" });
     }
 
     // Fetch existing transactions to determine the next ID
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.SHEET_ID,
-      range: 'Sheet1!A:A', // Fetch only the ID column
+      range: "Sheet1!A:A", // Fetch only the ID column
     });
 
     const existingIds = response.data?.values?.flat().map(Number);
@@ -78,14 +90,16 @@ export default async function handler(req, res) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.SHEET_ID,
-      range: 'Sheet1!A:F',
-      valueInputOption: 'RAW',
+      range: "Sheet1!A:G",
+      valueInputOption: "RAW",
       resource: {
-        values: [[nextId, date, description, type, amount, category]],
+        values: [
+          [nextId, date, description, type, amount, category, paymentType],
+        ],
       },
     });
 
-    res.status(200).json({ message: 'Transaction added' });
+    res.status(200).json({ message: "Transaction added" });
   } else {
     res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
   }

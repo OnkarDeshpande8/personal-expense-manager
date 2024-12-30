@@ -1,6 +1,6 @@
 // src/pages/api/getTransaction.js
-import sheets from '../../../googleSheets';
-import { TransactionType, TransactionCategory } from '../../../utils/enums';
+import sheets from "../../../googleSheets";
+import { TransactionType, TransactionCategory } from "../../../utils/enums";
 
 /**
  * @swagger
@@ -37,6 +37,12 @@ import { TransactionType, TransactionCategory } from '../../../utils/enums';
  *           enum: [Groceries, Food, Petrol, Medical, Shopping, Entertainment, EMI, SIP, Income, Other]
  *         required: false
  *         description: The category of transactions to filter
+ *       - in: query
+ *         name: description
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: The description to filter transactions
  *     responses:
  *       200:
  *         description: A list of transactions
@@ -83,49 +89,71 @@ import { TransactionType, TransactionCategory } from '../../../utils/enums';
  *                   example: "Method 'POST' Not Allowed"
  */
 export default async function handler(req, res) {
-  if (req.method === 'GET') {
-    const { startDate, endDate, type, category } = req.query;
+  if (req.method === "GET") {
+    const { startDate, endDate, type, category, description } = req.query;
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.SHEET_ID,
-      range: 'Sheet1!A:F',
+      range: "Sheet1!A:G",
     });
 
     let transactions = response.data.values.slice(1); // Remove header row
 
     // Skip rows with empty, null, or undefined IDs
-    transactions = transactions.filter(transaction => transaction[0]);
+    transactions = transactions.filter((transaction) => transaction[0]);
 
     // Filter by start date and end date
     if (startDate) {
-      transactions = transactions.filter(transaction => new Date(transaction[1]) >= new Date(startDate));
+      transactions = transactions.filter(
+        (transaction) => new Date(transaction[1]) >= new Date(startDate)
+      );
     }
     if (endDate) {
-      transactions = transactions.filter(transaction => new Date(transaction[1]) <= new Date(endDate));
+      transactions = transactions.filter(
+        (transaction) => new Date(transaction[1]) <= new Date(endDate)
+      );
     }
 
     // Filter by type
     if (type && Object.values(TransactionType).includes(type)) {
-      transactions = transactions.filter(transaction => transaction[3] === type);
+      transactions = transactions.filter(
+        (transaction) => transaction[3] === type
+      );
     }
 
     // Filter by category
     if (category && Object.values(TransactionCategory).includes(category)) {
-      transactions = transactions.filter(transaction => transaction[5] === category);
+      transactions = transactions.filter(
+        (transaction) => transaction[5] === category
+      );
+    }
+
+    // Filter by description
+    if (description) {
+      transactions = transactions.filter((transaction) =>
+        transaction[2].toLowerCase().includes(description.toLowerCase())
+      );
     }
 
     // Map transactions to objects
-    transactions = transactions.map(transaction => ({
+    transactions = transactions.map((transaction) => ({
       id: transaction[0],
       date: transaction[1],
       description: transaction[2],
       type: transaction[3],
       amount: transaction[4],
       category: transaction[5],
+      paymentType: transaction[6],
     }));
 
-    // Sort transactions by date (latest first)
-    transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Sort transactions by date (latest first) and then by ID (descending)
+    transactions.sort((a, b) => {
+      const dateComparison = new Date(b.date) - new Date(a.date);
+      if (dateComparison !== 0) {
+        return dateComparison;
+      }
+      return b.id - a.id;
+    });
 
     res.status(200).json(transactions);
   } else {

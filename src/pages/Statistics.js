@@ -26,6 +26,7 @@ const Statistics = () => {
     endDate: lastDay,
     type: TransactionType.SPENDING,
     category: "",
+    description: "",
   });
   const [editingTransaction, setEditingTransaction] = useState(null);
   const [message, setMessage] = useState(null);
@@ -208,6 +209,16 @@ const Statistics = () => {
                 </option>
               ))}
             </select>
+          </div>
+          <div className={styles.row}>
+            <input
+              className={styles.input}
+              name="description"
+              value={filters.description}
+              onChange={handleChange}
+              placeholder="Description"
+              type="text"
+            />
           </div>
           <div className={styles.btnContainer}>
             <button className={styles.button} type="submit">

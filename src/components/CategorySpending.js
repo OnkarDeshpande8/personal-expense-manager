@@ -12,6 +12,11 @@ import {
   FaQuestion,
   FaPhone,
   FaMobile,
+  FaHeadSideCough,
+  FaBookMedical,
+  FaClinicMedical,
+  FaCar,
+  FaBiking,
 } from "react-icons/fa";
 import { formatAmount } from "../../utils/services";
 import styles from "./CategorySpending.module.css";
@@ -36,7 +41,7 @@ const categoryIcons = {
   ),
   Medical: (
     <div className={styles.icon}>
-      <FaHeartbeat style={{ color: "var(--color-medical)", marginTop: 5 }} />
+      <FaClinicMedical style={{ color: "var(--color-medical)", marginTop: 5 }} />
     </div>
   ),
   Shopping: (
@@ -64,9 +69,39 @@ const categoryIcons = {
       <FaMobile style={{ color: "var(--color-recharge)", marginTop: 5 }} />
     </div>
   ),
+  "Recharge System": (
+    <div className={styles.icon}>
+      <FaMobile style={{ color: "var(--color-recharge-system)", marginTop: 5 }} />
+    </div>
+  ),
   Other: (
     <div className={styles.icon}>
       <FaQuestion style={{ color: "var(--color-other)", marginTop: 5 }} />
+    </div>
+  ),
+  UPI: (
+    <div className={styles.icon}>
+      <FaMoneyBillWave style={{ color: "var(--color-upi)", marginTop: 5 }} />
+    </div>
+  ),
+  Salary: (
+    <div className={styles.icon}>
+      <FaDollarSign style={{ color: "var(--color-salary)", marginTop: 5 }} />
+    </div>
+  ),
+  Healthcare: (
+    <div className={styles.icon}>
+      <FaClinicMedical style={{ color: "var(--color-salary)", marginTop: 5 }} />
+    </div>
+  ),
+  "Car Maintenance": (
+    <div className={styles.icon}>
+      <FaCar style={{ color: "var(--color-Car)", marginTop: 5 }} />
+    </div>
+  ),
+  "Bike Maintenance": (
+    <div className={styles.icon}>
+      <FaBiking style={{ color: "var(--color-Bike)", marginTop: 5 }} />
     </div>
   ),
 };

@@ -21,10 +21,15 @@
   --color-medical: #FF4500;
   --color-shopping: #8A2BE2;
   --color-entertainment: #20B2AA;
-  --color-emi: #61b461;
+  --color-emi: #c49a3f;
   --color-sip: #FF69B4;
-  --color-recharge: #5beb8bec;
+  --color-recharge: #25d1d1ec;
+  --color-recharge-system: #257ab3ec;
   --color-other: #A9A9A9;
+  --color-upi: #2eca50;
+  --color-salary: #2eca50;
+  --color-Car: #c26ee9;
+  --color-Bike: #e96e8d;
 
   --font-family: 'Roboto', sans-serif;
   --font-size-title: 24px;

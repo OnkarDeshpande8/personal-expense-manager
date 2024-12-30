@@ -4,6 +4,7 @@ import {
   ColumnNames,
   TransactionType,
   TransactionCategory,
+  PaymentType,
 } from "../../../utils/enums";
 
 /**
@@ -37,6 +38,10 @@ import {
  *                 type: string
  *                 enum: [Groceries, Food, Petrol, Medical, Shopping, Entertainment, EMI, SIP, Income, Other]
  *                 example: "Groceries"
+ *               paymentType:
+ *                 type: string
+ *                 enum: [Cash, UPI]
+ *                 example: "Cash"
  *     responses:
  *       200:
  *         description: Transaction added successfully
@@ -61,14 +66,17 @@ import {
  */
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { date, description, type, amount, category } = req.body;
+    const { date, description, type, amount, category, paymentType } = req.body;
 
-    // Validate type and category using enums
+    // Validate type, category, and payment type using enums
     if (!Object.values(TransactionType).includes(type)) {
       return res.status(400).json({ error: "Invalid transaction type" });
     }
     if (!Object.values(TransactionCategory).includes(category)) {
       return res.status(400).json({ error: "Invalid transaction category" });
+    }
+    if (!Object.values(PaymentType).includes(paymentType)) {
+      return res.status(400).json({ error: "Invalid payment type" });
     }
 
     // Fetch existing transactions to determine the next ID
@@ -82,10 +90,10 @@ export default async function handler(req, res) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.SHEET_ID,
-      range: 'Sheet1!A:F',
+      range: 'Sheet1!A:G', // Updated range to include payment type
       valueInputOption: 'RAW',
       resource: {
-        values: [[nextId, date, description, type, amount, category]],
+        values: [[nextId, date, description, type, amount, category, paymentType]],
       },
     });
 

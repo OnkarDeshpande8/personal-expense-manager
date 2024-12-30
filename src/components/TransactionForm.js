@@ -1,21 +1,32 @@
 // components/TransactionForm.js
 import React, { useState, useEffect } from "react";
 import Modal from "./Modal";
-import { TransactionType, TransactionCategory } from "../../utils/enums";
+import {
+  TransactionType,
+  TransactionCategory,
+  PaymentType,
+} from "../../utils/enums";
 import styles from "./TransactionForm.module.css";
+import { formatDate } from "../../utils/services";
 
 const TransactionForm = ({ initialData, onSubmit, onClose, onDelete }) => {
+  const now = new Date();
+  const todaysDate = formatDate(
+    new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  );
   const [form, setForm] = useState({
-    date: "",
+    date: todaysDate,
     description: "",
-    type: "",
+    type: TransactionType.SPENDING,
     amount: "",
     category: "",
+    paymentType: "",
   });
-  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     if (initialData) {
+      console.log("initialData = ", initialData);
+
       setForm(initialData);
     }
   }, [initialData]);
@@ -26,12 +37,16 @@ const TransactionForm = ({ initialData, onSubmit, onClose, onDelete }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(form);
+
     await onSubmit(form);
   };
 
   const handleDelete = async () => {
-    if (onDelete) {
-      await onDelete(form.id);
+    if (window.confirm("Are you sure you want to delete this transaction?")) {
+      if (onDelete) {
+        await onDelete(form.id);
+      }
     }
   };
 
@@ -90,6 +105,22 @@ const TransactionForm = ({ initialData, onSubmit, onClose, onDelete }) => {
               {Object.values(TransactionCategory).map((category) => (
                 <option key={category} value={category}>
                   {category}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.row}>
+            <select
+              className={styles.select}
+              name="paymentType"
+              value={form.paymentType}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Payment Type</option>
+              {Object.values(PaymentType).map((paymentType) => (
+                <option key={paymentType} value={paymentType}>
+                  {paymentType}
                 </option>
               ))}
             </select>

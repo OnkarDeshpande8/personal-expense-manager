@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import styles from "./Home.module.css";
 import IncomeSpending from "@/components/IncomeSpending";
 import CategorySpending from "@/components/CategorySpending";
-import { fetchTransactionsWithFilters } from "../../utils/services";
+import { fetchTransactionsWithFilters, formatAmount } from "../../utils/services";
 import { FilterType, Years } from "../../utils/enums";
 
 const Home = () => {
@@ -65,8 +65,8 @@ const Home = () => {
       }, {});
 
     setTrasactionData(data);
-    setTotalIncome(income);
-    setTotalSpending(spending);
+    setTotalIncome(formatAmount(income));
+    setTotalSpending(formatAmount(spending));
     setCategorySpendings(
       Object.entries(categorySpendings).map(([category, amount]) => ({
         category,

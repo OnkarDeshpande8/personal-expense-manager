@@ -1,5 +1,5 @@
-//src/pages/api/updateTransaction.js
 import sheets from "../../../googleSheets";
+import { TransactionType, TransactionCategory, PaymentType } from "../../../utils/enums";
 
 /**
  * @swagger
@@ -34,6 +34,10 @@ import sheets from "../../../googleSheets";
  *               category:
  *                 type: string
  *                 example: "Groceries"
+ *               paymentType:
+ *                 type: string
+ *                 enum: [Cash, UPI]
+ *                 example: "Cash"
  *     responses:
  *       200:
  *         description: Transaction updated successfully
@@ -45,14 +49,25 @@ import sheets from "../../../googleSheets";
 
 export default async function handler(req, res) {
   if (req.method === "PUT") {
-    const { id, date, description, type, amount, category } = req.body;
+    const { id, date, description, type, amount, category, paymentType } = req.body;
 
-    if (!id || !date || !description || !type || !amount || !category) {
+    if (!id || !date || !description || !type || !amount || !category || !paymentType) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
+    // Validate type, category, and payment type using enums
+    if (!Object.values(TransactionType).includes(type)) {
+      return res.status(400).json({ error: "Invalid transaction type" });
+    }
+    if (!Object.values(TransactionCategory).includes(category)) {
+      return res.status(400).json({ error: "Invalid transaction category" });
+    }
+    if (!Object.values(PaymentType).includes(paymentType)) {
+      return res.status(400).json({ error: "Invalid payment type" });
+    }
+
     try {
-      // Fetch existing transactions to determine the next ID
+      // Fetch existing transactions to determine the row index
       const response = await sheets.spreadsheets.values.get({
         spreadsheetId: process.env.SHEET_ID,
         range: "Sheet1!A:A", // Fetch only the ID column
@@ -63,13 +78,17 @@ export default async function handler(req, res) {
         index: index + 1,
       }));
       const rowIndex = ids.find((row) => row.id === id)?.index;
-      
+
+      if (!rowIndex) {
+        return res.status(400).json({ error: "Transaction not found" });
+      }
+
       await sheets.spreadsheets.values.update({
         spreadsheetId: process.env.SHEET_ID,
         range: `Sheet1!${rowIndex}:${rowIndex}`,
         valueInputOption: "RAW",
         resource: {
-          values: [[id, date, description, type, amount, category]],
+          values: [[id, date, description, type, amount, category, paymentType]],
         },
       });
 
