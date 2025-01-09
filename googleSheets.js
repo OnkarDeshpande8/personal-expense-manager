@@ -1,8 +1,5 @@
 // googleSheets.js
 import { google } from 'googleapis';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const auth = new google.auth.GoogleAuth({
   credentials: {
